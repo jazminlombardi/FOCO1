@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,sans-serif;background:#1a1f2e;display:flex;justify-content:center;align-items:flex-start;padding:14px;gap:12px;flex-wrap:wrap;min-height:100vh;}
+
+/* PHONE */
+.phone{width:318px;border-radius:32px;border:6px solid #0d111a;background:#111b21;display:flex;flex-direction:column;height:690px;flex-shrink:0;overflow:hidden;}
+.wh{background:#1f2c34;padding:9px 10px;display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.wav{width:32px;height:32px;border-radius:50%;background:#0D1B2E;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#F5C842;flex-shrink:0;border:2px solid #F5C842;}
+.wn{color:#e9edef;font-size:12.5px;font-weight:600;}
+.ws{color:#8696a0;font-size:9.5px;}
+.wb{flex:1;overflow-y:auto;padding:7px 7px 4px;background:#0b141a;display:flex;flex-direction:column;gap:4px;}
+.wb::-webkit-scrollbar{width:3px;}
+.wb::-webkit-scrollbar-thumb{background:#2a3942;border-radius:2px;}
+.ai-bar{background:#1f2c34;border-radius:6px;padding:5px 8px;font-size:9.5px;color:#8696a0;text-align:center;line-height:1.4;}
+.ai-bar b{color:#e9edef;}
+.dlbl{text-align:center;color:#8696a0;font-size:9.5px;background:#182229;border-radius:5px;padding:2px 7px;align-self:center;margin:2px 0;}
+.br{display:flex;flex-direction:column;margin:1px 0;}
+.br.u{align-items:flex-end;}
+.br.b{align-items:flex-start;}
+.bub{max-width:84%;padding:6px 9px;border-radius:8px;font-size:11.5px;line-height:1.5;word-break:break-word;white-space:pre-wrap;}
+.bub.u{background:#005c4b;color:#e9edef;border-radius:8px 8px 2px 8px;}
+.bub.b{background:#202c33;color:#e9edef;border-radius:8px 8px 8px 2px;}
+.bub.aw{background:#2d1f0a;border:1px solid #f59e0b;color:#e9edef;border-radius:8px 8px 8px 2px;}
+.bub.ad{background:#2d0a0a;border:1px solid #ef4444;color:#e9edef;border-radius:8px 8px 8px 2px;}
+.bub.savings{background:#0a2d0a;border:1px solid #25d366;color:#e9edef;border-radius:8px 8px 8px 2px;}
+.at{font-weight:600;font-size:11.5px;margin-bottom:3px;}
+.aw .at{color:#f59e0b;} .ad .at{color:#ef4444;} .savings .at{color:#25d366;}
+.bt{font-size:9px;color:#8696a0;text-align:right;margin-top:2px;}
+.br.u .bt{color:#53bdeb;}
+.cr{display:flex;flex-wrap:wrap;gap:3px;margin:2px 0;justify-content:flex-end;}
+.ch{background:#005c4b;color:#e9edef;border:0.5px solid #25d366;border-radius:13px;padding:3px 9px;font-size:10px;cursor:pointer;white-space:nowrap;user-select:none;}
+.ch:active{background:#0a7a5e;}
+
+/* INPUT AREA */
+.wia{background:#1f2c34;padding:6px 7px;display:flex;align-items:center;gap:5px;flex-shrink:0;border-top:1px solid #2a3942;}
+.wi{flex:1;background:#2a3942;border:none;border-radius:16px;padding:7px 11px;color:#e9edef;font-size:12px;outline:none;font-family:inherit;}
+.wi::placeholder{color:#8696a0;}
+.icon-btn{width:30px;height:30px;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.btn-attach{background:#2a3942;color:#8696a0;}
+.btn-attach:hover{background:#384a54;}
+.btn-mic{background:#2a3942;color:#8696a0;}
+.btn-mic:hover{background:#384a54;}
+.btn-mic.recording{background:#ef4444;color:#fff;animation:pulse 1s infinite;}
+.btn-send{background:#00a884;color:#fff;}
+.btn-send:hover{background:#00c49b;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.6;}}
+
+/* TICKET PREVIEW in bubble */
+.ticket-card{background:#111;border:1px solid #333;border-radius:6px;padding:7px 9px;margin-bottom:5px;display:flex;align-items:center;gap:7px;}
+.ticket-img{width:36px;height:36px;border-radius:4px;object-fit:cover;flex-shrink:0;border:1px solid #444;}
+.ticket-info{flex:1;}
+.ticket-name{color:#e9edef;font-size:10.5px;font-weight:500;}
+.ticket-size{color:#8696a0;font-size:9.5px;}
+
+/* AUDIO bubble */
+.audio-card{background:#005c4b;border-radius:8px 8px 2px 8px;padding:8px 10px;display:flex;align-items:center;gap:8px;max-width:200px;}
+.audio-icon{font-size:18px;flex-shrink:0;}
+.audio-wave{flex:1;height:20px;display:flex;align-items:center;gap:1.5px;}
+.audio-bar{width:2.5px;background:rgba(255,255,255,0.5);border-radius:2px;}
+.audio-dur{color:#e9edef;font-size:10px;flex-shrink:0;}
+
+/* DOTS */
+.dots-row{display:flex;align-items:center;gap:3px;padding:7px 9px;background:#202c33;border-radius:8px 8px 8px 2px;width:fit-content;}
+.dot{width:5px;height:5px;background:#8696a0;border-radius:50%;animation:bn 1.2s infinite;}
+.dot:nth-child(2){animation-delay:.2s;}.dot:nth-child(3){animation-delay:.4s;}
+@keyframes bn{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-4px);}}
+
+/* PANEL */
+.panel{width:285px;display:flex;flex-direction:column;gap:9px;max-height:690px;overflow-y:auto;}
+.panel::-webkit-scrollbar{width:3px;}
+.pc{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:11px;}
+.pt{font-size:11px;font-weight:700;color:#111;margin-bottom:7px;display:flex;align-items:center;gap:4px;}
+.uf{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f3f4f6;font-size:10.5px;}
+.uf:last-child{border-bottom:none;}
+.ul{color:#6b7280;} .uv{color:#111;font-weight:500;max-width:155px;text-align:right;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:7px;}
+.sc{background:#f9fafb;border-radius:7px;padding:7px;text-align:center;}
+.sn{font-size:14px;font-weight:700;color:#111;}
+.sl{font-size:9px;color:#6b7280;margin-top:1px;}
+.sc.savings-card{background:#f0fdf4;border:1px solid #86efac;}
+.sc.savings-card .sn{color:#065f46;}
+.pb{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin:4px 0;}
+.pf{height:100%;border-radius:3px;transition:width 0.4s;}
+.ab{border-radius:7px;padding:6px 8px;font-size:10px;line-height:1.5;margin-top:4px;}
+.ab.w{background:#fef3c7;color:#92400e;border:1px solid #f59e0b;}
+.ab.ok{background:#d1fae5;color:#065f46;border:1px solid #10b981;}
+.ab.d{background:#fee2e2;color:#991b1b;border:1px solid #ef4444;}
+.eb{width:100%;background:#0D1B2E;color:#F5C842;border:none;border-radius:7px;padding:7px;font-size:11px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;margin-top:7px;}
+.eb:hover{opacity:0.85;}
+.vi{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px solid #f3f4f6;font-size:10.5px;}
+.vi:last-child{border-bottom:none;}
+.vdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.vdate{color:#6b7280;font-size:9.5px;min-width:44px;}
+.vn{color:#111;flex:1;}
+.vb{font-size:9px;padding:1px 5px;border-radius:7px;font-weight:700;}
+
+/* TICKETS GALLERY */
+.tgallery{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px;}
+.tthumb{width:52px;height:52px;border-radius:5px;object-fit:cover;border:1px solid #e5e7eb;cursor:pointer;}
+.tthumb:hover{opacity:0.8;}
+
+/* MODAL */
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.78);display:none;align-items:flex-start;justify-content:center;z-index:999;padding:14px;overflow-y:auto;}
+.overlay.on{display:flex;}
+.modal{background:#fff;border-radius:14px;padding:18px;width:540px;max-width:100%;margin:auto;}
+.mh{display:flex;align-items:center;gap:9px;margin-bottom:3px;}
+.mt{font-size:15px;font-weight:700;color:#111;}
+.msub{font-size:10.5px;color:#6b7280;margin-bottom:12px;}
+.ms{margin-bottom:11px;}
+.mst{font-size:9.5px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;padding-bottom:3px;border-bottom:1px solid #e5e7eb;}
+.mr{display:flex;justify-content:space-between;font-size:11.5px;padding:4px 0;border-bottom:1px solid #f3f4f6;}
+.mr:last-child{border-bottom:none;}
+.mr .lbl{color:#6b7280;} .mr .val{font-weight:500;color:#111;}
+.mr .val.g{color:#065f46;} .mr .val.r{color:#991b1b;} .mr .val.big{font-size:13.5px;}
+.savings-banner{background:#f0fdf4;border:2px solid #22c55e;border-radius:10px;padding:12px;margin-bottom:12px;text-align:center;}
+.sb-title{font-size:13px;font-weight:700;color:#065f46;margin-bottom:4px;}
+.sb-amount{font-size:28px;font-weight:800;color:#16a34a;}
+.sb-sub{font-size:10px;color:#4ade80;margin-top:2px;}
+.mono-box{background:#f9fafb;border-radius:7px;padding:9px;margin-bottom:11px;}
+.mono-r{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;}
+.movlist{max-height:140px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:7px;}
+.movlist::-webkit-scrollbar{width:3px;}
+.movi{display:flex;justify-content:space-between;align-items:center;padding:5px 9px;border-bottom:1px solid #f3f4f6;font-size:10.5px;}
+.movi:last-child{border-bottom:none;}
+.movi-l{display:flex;align-items:center;gap:5px;}
+.movi-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.movi-lbl{color:#111;} .movi-date{color:#6b7280;font-size:9px;}
+.movi-val{font-weight:600;}
+.recbox{background:#fef3c7;border:1px solid #f59e0b;border-radius:7px;padding:7px 9px;margin-bottom:9px;font-size:10.5px;color:#92400e;line-height:1.5;}
+.note{font-size:9.5px;color:#6b7280;background:#f9fafb;border-radius:6px;padding:6px 8px;margin-bottom:9px;line-height:1.5;}
+.btn-row{display:flex;gap:7px;}
+.btn-p{flex:2;background:#0D1B2E;color:#F5C842;border:none;border-radius:7px;padding:9px;font-size:11.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;}
+.btn-p:hover{opacity:0.85;}
+.btn-s{flex:1;background:#f3f4f6;color:#374151;border:none;border-radius:7px;padding:9px;font-size:11.5px;cursor:pointer;}
+
+/* TICKET VIEWER */
+.tviewer{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.92);display:none;align-items:center;justify-content:center;z-index:1000;}
+.tviewer.on{display:flex;}
+.tviewer img{max-width:90vw;max-height:85vh;border-radius:8px;}
+.tviewer-close{position:absolute;top:16px;right:20px;color:#fff;font-size:28px;cursor:pointer;background:none;border:none;}
+</style>
+</head>
+<body>
+
+<!-- PHONE -->
+<div class="phone">
+  <div class="wh">
+    <div style="color:#8696a0;font-size:14px;cursor:pointer;">&#8592;</div>
+    <div class="wav">F</div>
+    <div>
+      <div class="wn">FOCO ✓</div>
+      <div class="ws" id="wstatus">en línea</div>
+    </div>
+    <div style="margin-left:auto;color:#8696a0;font-size:13px;display:flex;gap:9px;">&#128247; &#128222;</div>
+  </div>
+  <div class="wb" id="chat">
+    <div class="ai-bar"><b>La IA genera los mensajes.</b> Algunos pueden ser imprecisos.</div>
+    <div class="dlbl">Hoy</div>
+  </div>
+  <div class="wia">
+    <button class="icon-btn btn-attach" id="btn-attach" title="Adjuntar ticket/factura">📎</button>
+    <input type="file" id="file-input" accept="image/*" style="display:none" multiple />
+    <input class="wi" id="inp" type="text" placeholder="Escribí o grabá un mensaje..." autocomplete="off" />
+    <button class="icon-btn btn-mic" id="btn-mic" title="Mensaje de voz">🎙️</button>
+    <button class="icon-btn btn-send" id="btn-send">&#9654;</button>
+  </div>
+</div>
+
+<!-- SIDE PANEL -->
+<div class="panel">
+  <div class="pc" id="prof-card" style="display:none">
+    <div class="pt">👤 Perfil guardado</div>
+    <div id="prof-fields"></div>
+  </div>
+
+  <div class="pc" id="stats-card" style="display:none">
+    <div class="pt">📊 Resumen del mes</div>
+    <div class="sg">
+      <div class="sc"><div class="sn" id="si">$0</div><div class="sl">Ingresos prof.</div></div>
+      <div class="sc"><div class="sn" id="sgp">$0</div><div class="sl">Gastos pers.</div></div>
+      <div class="sc"><div class="sn" id="sgpr">$0</div><div class="sl">Gastos prof.</div></div>
+      <div class="sc"><div class="sn" id="sbal">$0</div><div class="sl">Balance neto</div></div>
+    </div>
+    <div class="sc savings-card" style="margin-bottom:7px;">
+      <div class="sn" id="s-saving">$0</div>
+      <div class="sl">💚 Ahorro en multas este mes</div>
+    </div>
+    <div style="font-size:10px;color:#6b7280;margin-bottom:3px;">Facturación vs límite (<span id="spct">0</span>%)</div>
+    <div class="pb"><div class="pf" id="mono-bar" style="width:0%;background:#10b981;"></div></div>
+    <div id="mono-alert"></div>
+    <button class="eb" onclick="showModal()">📄 Ver resumen completo exportable</button>
+  </div>
+
+  <div class="pc" id="tickets-card" style="display:none">
+    <div class="pt">🧾 Tickets y facturas guardados</div>
+    <div class="tgallery" id="tgallery"></div>
+    <div id="no-tickets" style="font-size:10.5px;color:#9ca3af;font-style:italic;">Subí una foto de un ticket para guardarlo acá</div>
+  </div>
+
+  <div class="pc" id="venc-card" style="display:none">
+    <div class="pt">🔔 Vencimientos monotributo</div>
+    <div class="vi"><div class="vdot" style="background:#ef4444;"></div><div class="vdate">20 jun</div><div class="vn">Pago cuota mensual</div><div class="vb" style="background:#fee2e2;color:#991b1b;">Urgente</div></div>
+    <div class="vi"><div class="vdot" style="background:#f59e0b;"></div><div class="vdate">20 jul</div><div class="vn">Cuota julio</div><div class="vb" style="background:#fef3c7;color:#92400e;">Próximo</div></div>
+    <div class="vi"><div class="vdot" style="background:#f59e0b;"></div><div class="vdate">jul–ago</div><div class="vn">Recategorización semestral</div><div class="vb" style="background:#fef3c7;color:#92400e;">Revisar</div></div>
+    <div class="vi"><div class="vdot" style="background:#9ca3af;"></div><div class="vdate">ene 2027</div><div class="vn">Recategorización anual</div><div class="vb" style="background:#f3f4f6;color:#6b7280;">Pendiente</div></div>
+  </div>
+</div>
+
+<!-- MODAL RESUMEN -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <div class="mh"><span style="font-size:20px;">📋</span><div class="mt">Resumen financiero — Junio 2026</div></div>
+    <div class="msub">Generado por Foco · Listo para mostrar a ARCA o contador</div>
+
+    <!-- AHORRO BANNER -->
+    <div class="savings-banner">
+      <div class="sb-title">💚 Te ahorraste en multas este mes</div>
+      <div class="sb-amount" id="ex-saving">$0</div>
+      <div class="sb-sub">Por registrar tus movimientos a tiempo y no pasarte del límite del monotributo</div>
+    </div>
+
+    <div id="recbox" class="recbox" style="display:none">⚠️ <b>Sugerencia:</b> Tu facturación está cerca del límite. Si tus ingresos bajaron, podés recategorizarte a una categoría menor y pagar menos cuota mensual.</div>
+
+    <div class="ms">
+      <div class="mst">Datos del contribuyente</div>
+      <div class="mr"><span class="lbl">Nombre</span><span class="val" id="ex-nombre">—</span></div>
+      <div class="mr"><span class="lbl">Tipo</span><span class="val" id="ex-tipo">—</span></div>
+      <div class="mr"><span class="lbl">Modalidad</span><span class="val" id="ex-modalidad">—</span></div>
+      <div class="mr"><span class="lbl">Medios de cobro</span><span class="val" id="ex-medios">—</span></div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Ingresos profesionales</div>
+      <div id="ex-ing-list"></div>
+      <div class="mr" style="margin-top:3px;"><span class="lbl" style="font-weight:600;">Total ingresos</span><span class="val g big" id="ex-ing-tot">$0</span></div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Gastos personales</div>
+      <div id="ex-gper-list"></div>
+      <div class="mr" style="margin-top:3px;"><span class="lbl" style="font-weight:600;">Total gastos personales</span><span class="val r big" id="ex-gper-tot">$0</span></div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Gastos profesionales</div>
+      <div id="ex-gprof-list"></div>
+      <div class="mr" style="margin-top:3px;"><span class="lbl" style="font-weight:600;">Total gastos profesionales</span><span class="val r big" id="ex-gprof-tot">$0</span></div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Estado del monotributo</div>
+      <div class="mono-box">
+        <div class="mono-r"><span style="color:#6b7280;">Facturado acumulado</span><span style="font-weight:600;" id="ex-fact">$0</span></div>
+        <div class="mono-r"><span style="color:#6b7280;">Límite anual estimado</span><span style="font-weight:600;">$8.000.000</span></div>
+        <div class="mono-r"><span style="color:#6b7280;">% utilizado</span><span style="font-weight:600;" id="ex-porc">0%</span></div>
+        <div class="mono-r"><span style="color:#6b7280;">Próximo vencimiento</span><span style="font-weight:600;color:#ef4444;">20 jun 2026</span></div>
+        <div class="pb" style="margin-top:7px;"><div class="pf" id="ex-bar" style="width:0%;background:#10b981;"></div></div>
+      </div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Todos los movimientos</div>
+      <div class="movlist" id="ex-movs"></div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Tickets y facturas adjuntados</div>
+      <div id="ex-tickets" style="font-size:10.5px;color:#9ca3af;font-style:italic;">Sin tickets adjuntados aún</div>
+    </div>
+
+    <div class="ms">
+      <div class="mst">Balance neto del mes</div>
+      <div class="mr"><span class="lbl">Total ingresos</span><span class="val g" id="ex-bal-i">$0</span></div>
+      <div class="mr"><span class="lbl">Total gastos</span><span class="val r" id="ex-bal-g">$0</span></div>
+      <div class="mr"><span class="lbl" style="font-weight:600;">Balance neto</span><span class="val g big" id="ex-bal">$0</span></div>
+    </div>
+
+    <div class="note">ℹ️ Este resumen es orientativo. En el régimen de monotributo los gastos no son deducibles del impuesto. Consultá a tu contador para asesoramiento fiscal.</div>
+
+    <div class="btn-row">
+      <button class="btn-p" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+      <button class="btn-s" onclick="document.getElementById('modal').classList.remove('on')">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- TICKET VIEWER -->
+<div class="tviewer" id="tviewer">
+  <button class="tviewer-close" onclick="document.getElementById('tviewer').classList.remove('on')">✕</button>
+  <img id="tviewer-img" src="" alt="ticket" />
+</div>
+
+<script>
+const chatEl = document.getElementById('chat');
+const inpEl = document.getElementById('inp');
+const statusEl = document.getElementById('wstatus');
+const fileInput = document.getElementById('file-input');
+const LIMITE = 8000000;
+const MULTA_BASE = 34850; // multa típica por mes bien registrado
+
+const S = {
+  phase:'onboarding', step:0,
+  user:{nombre:'',tipo:'',modalidad:'',medios:''},
+  ingresos:0, gastosPer:0, gastosProf:0, facturado:0,
+  movs:[], tickets:[],
+  ahorro:0,
+  a80:false, a90:false, a100:false,
+  waitMail:false, isRecording:false
+};
+
+function gt(){const n=new Date();return String(n.getHours()).padStart(2,'0')+':'+String(n.getMinutes()).padStart(2,'0');}
+function fp(n){return '$'+Math.round(n).toLocaleString('es-AR');}
+function pm(t){const m=t.replace(/\./g,'').match(/\$?([\d]+)/);return m?parseInt(m[1]):0;}
+
+function addBub(txt,who,cls){
+  const row=document.createElement('div');row.className='br '+(who==='u'?'u':'b');
+  const b=document.createElement('div');b.className='bub '+(cls||who);
+  b.textContent=txt;
+  const t=document.createElement('div');t.className='bt';t.textContent=gt()+(who==='u'?' ✓✓':'');
+  row.appendChild(b);row.appendChild(t);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function addAlertBub(title,txt,type){
+  const row=document.createElement('div');row.className='br b';
+  const b=document.createElement('div');b.className='bub '+(type==='d'?'ad':'aw');
+  b.innerHTML='<div class="at">'+(type==='d'?'🔴':'⚠️')+' '+title+'</div>'+txt.replace(/\n/g,'<br>');
+  const t=document.createElement('div');t.className='bt';t.textContent=gt();
+  row.appendChild(b);row.appendChild(t);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function addSavingsBub(amount){
+  const row=document.createElement('div');row.className='br b';
+  const b=document.createElement('div');b.className='bub savings';
+  b.innerHTML='<div class="at">💚 Ahorro acumulado en multas</div>Por mantener tus movimientos al día y no exceder el límite del monotributo, este mes te ahorraste:\n\n<span style="font-size:16px;font-weight:700;color:#4ade80;">'+fp(amount)+'</span> 🎉';
+  const t=document.createElement('div');t.className='bt';t.textContent=gt();
+  row.appendChild(b);row.appendChild(t);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function addAudioBub(durSec){
+  const row=document.createElement('div');row.className='br u';
+  const wrap=document.createElement('div');wrap.className='audio-card';
+  const heights=[8,14,20,12,18,10,16,8,14,20,12,8,18,14,10];
+  let bars='';heights.forEach(h=>{bars+='<div class="audio-bar" style="height:'+h+'px;"></div>';});
+  wrap.innerHTML='<div class="audio-icon">🎙️</div><div class="audio-wave">'+bars+'</div><div class="audio-dur">'+durSec+'s</div>';
+  const t=document.createElement('div');t.className='bt';t.textContent=gt()+' ✓✓';
+  row.appendChild(wrap);row.appendChild(t);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function addTicketBub(name,src){
+  const row=document.createElement('div');row.className='br u';
+  const b=document.createElement('div');b.className='bub u';b.style.padding='6px';
+  b.innerHTML='<div class="ticket-card"><img class="ticket-img" src="'+src+'" onclick="viewTicket(\''+src+'\')"><div class="ticket-info"><div class="ticket-name">'+name+'</div><div class="ticket-size">Ticket adjunto ✓</div></div></div>';
+  const t=document.createElement('div');t.className='bt';t.textContent=gt()+' ✓✓';
+  row.appendChild(b);row.appendChild(t);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function addChips(chips){
+  const row=document.createElement('div');row.className='cr';
+  chips.forEach(c=>{
+    const ch=document.createElement('div');ch.className='ch';ch.textContent=c.l;
+    ch.addEventListener('click',()=>tap(c.m||c.l));row.appendChild(ch);
+  });
+  chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+}
+
+function typing(cb,delay){
+  delay=delay||900;statusEl.textContent='escribiendo...';
+  const row=document.createElement('div');row.className='br b';
+  const d=document.createElement('div');d.className='dots-row';
+  d.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+  row.appendChild(d);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+  setTimeout(()=>{if(row.parentNode)row.parentNode.removeChild(row);statusEl.textContent='en línea';cb();},delay);
+}
+
+function addMov(tipo,desc,monto){
+  const fecha=new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'2-digit'});
+  S.movs.push({tipo,desc:desc.length>40?desc.slice(0,38)+'…':desc,monto,fecha});
+}
+
+function calcAhorro(){
+  // Ahorro simulado: por cada movimiento registrado a tiempo = $2.500 evitados + bonus si estás bajo el límite
+  const base = S.movs.length * 2500;
+  const bonus = S.facturado < LIMITE * 0.8 ? 12000 : 0;
+  S.ahorro = base + bonus + MULTA_BASE;
+  document.getElementById('s-saving').textContent = fp(S.ahorro);
+}
+
+function checkAlerts(){
+  const pct=(S.facturado/LIMITE)*100;
+  const rest=LIMITE-S.facturado;
+  if(pct>=100&&!S.a100){
+    S.a100=true;
+    setTimeout(()=>{
+      addAlertBub('Límite de monotributo SUPERADO','Tu facturación ('+fp(S.facturado)+') superó el límite anual.\n\nDebés recategorizarte urgente o pasás a Responsable Inscripto automáticamente.\nConsultá a tu contador.','d');
+      addChips([{l:'📄 Ver resumen',m:'_export'},{l:'💡 ¿Cómo me recategorizo?',m:'¿Cómo me recategorizo?'}]);
+    },1300);
+  } else if(pct>=80&&!S.a80){
+    S.a80=true;if(pct>=90)S.a90=true;
+    setTimeout(()=>{
+      addAlertBub('Recategorización Monotributo','Tu facturación acumulada ('+fp(S.facturado)+') está cerca del límite de tu categoría.\n\nTe quedan '+fp(rest)+' antes de tener que recategorizar.\n\n💡 Si tus ingresos bajaron, podés recategorizarte a una categoría menor y pagar menos cuota.',pct>=90?'d':'w');
+      addChips([{l:'📄 Ver resumen',m:'_export'},{l:'💡 ¿Cómo me recategorizo?',m:'¿Cómo me recategorizo?'}]);
+    },1300);
+  }
+}
+
+function updateStats(){
+  document.getElementById('si').textContent=fp(S.ingresos);
+  document.getElementById('sgp').textContent=fp(S.gastosPer);
+  document.getElementById('sgpr').textContent=fp(S.gastosProf);
+  document.getElementById('sbal').textContent=fp(S.ingresos-S.gastosPer-S.gastosProf);
+  calcAhorro();
+  const pct=Math.round((S.facturado/LIMITE)*100);
+  document.getElementById('spct').textContent=pct;
+  const bar=document.getElementById('mono-bar');
+  bar.style.width=Math.min(pct,100)+'%';
+  bar.style.background=pct>=90?'#ef4444':pct>=80?'#f59e0b':'#10b981';
+  const al=document.getElementById('mono-alert');
+  if(pct>=100)al.innerHTML='<div class="ab d">🔴 Superaste el límite. Recategorizate urgente.</div>';
+  else if(pct>=90)al.innerHTML='<div class="ab d">⚠️ +90% del límite. Consultá tu contador ahora.</div>';
+  else if(pct>=80)al.innerHTML='<div class="ab w">⚠️ +80% del límite. Considerá recategorizarte.</div>';
+  else al.innerHTML='<div class="ab ok">✅ Dentro del límite. Seguí registrando.</div>';
+}
+
+function showPanel(){
+  document.getElementById('stats-card').style.display='block';
+  document.getElementById('tickets-card').style.display='block';
+  document.getElementById('venc-card').style.display='block';
+  updateStats();
+}
+
+function updateProfile(){
+  document.getElementById('prof-card').style.display='block';
+  const u=S.user;
+  document.getElementById('prof-fields').innerHTML=[
+    {l:'Nombre',v:u.nombre||'—'},{l:'Tipo',v:u.tipo||'—'},
+    {l:'Modalidad',v:u.modalidad||'—'},{l:'Medios',v:u.medios||'—'}
+  ].map(f=>'<div class="uf"><span class="ul">'+f.l+'</span><span class="uv">'+f.v+'</span></div>').join('');
+}
+
+function addTicketToPanel(src,name){
+  S.tickets.push({src,name});
+  document.getElementById('no-tickets').style.display='none';
+  const gallery=document.getElementById('tgallery');
+  const img=document.createElement('img');
+  img.className='tthumb';img.src=src;img.title=name;
+  img.onclick=()=>viewTicket(src);
+  gallery.appendChild(img);
+}
+
+function viewTicket(src){
+  document.getElementById('tviewer-img').src=src;
+  document.getElementById('tviewer').classList.add('on');
+}
+
+function showModal(){
+  const u=S.user;
+  document.getElementById('ex-nombre').textContent=u.nombre||'—';
+  document.getElementById('ex-tipo').textContent=u.tipo||'—';
+  document.getElementById('ex-modalidad').textContent=u.modalidad||'—';
+  document.getElementById('ex-medios').textContent=u.medios||'—';
+  document.getElementById('ex-saving').textContent=fp(S.ahorro);
+
+  const mkList=(movs,id)=>{
+    const el=document.getElementById(id);
+    el.innerHTML=movs.length===0
+      ?'<div class="mr"><span class="lbl" style="font-style:italic;color:#9ca3af;">Sin movimientos</span></div>'
+      :movs.map(m=>'<div class="mr"><span class="lbl">'+m.desc+' <span style="font-size:9px;color:#9ca3af;">('+m.fecha+')</span></span><span class="val '+(m.tipo==='ingreso'?'g':'r')+'">'+fp(m.monto)+'</span></div>').join('');
+  };
+  mkList(S.movs.filter(m=>m.tipo==='ingreso'),'ex-ing-list');
+  mkList(S.movs.filter(m=>m.tipo==='gasto_per'),'ex-gper-list');
+  mkList(S.movs.filter(m=>m.tipo==='gasto_prof'),'ex-gprof-list');
+  document.getElementById('ex-ing-tot').textContent=fp(S.ingresos);
+  document.getElementById('ex-gper-tot').textContent=fp(S.gastosPer);
+  document.getElementById('ex-gprof-tot').textContent=fp(S.gastosProf);
+  document.getElementById('ex-fact').textContent=fp(S.facturado);
+  const pct=Math.round((S.facturado/LIMITE)*100);
+  document.getElementById('ex-porc').textContent=pct+'%';
+  const bar=document.getElementById('ex-bar');
+  bar.style.width=Math.min(pct,100)+'%';
+  bar.style.background=pct>=90?'#ef4444':pct>=80?'#f59e0b':'#10b981';
+  document.getElementById('ex-bal-i').textContent=fp(S.ingresos);
+  document.getElementById('ex-bal-g').textContent=fp(S.gastosPer+S.gastosProf);
+  document.getElementById('ex-bal').textContent=fp(S.ingresos-S.gastosPer-S.gastosProf);
+  document.getElementById('recbox').style.display=pct>=80?'block':'none';
+
+  const movEl=document.getElementById('ex-movs');
+  movEl.innerHTML=S.movs.length===0
+    ?'<div class="movi"><span style="color:#9ca3af;font-style:italic;">Sin movimientos aún</span></div>'
+    :S.movs.map(m=>{
+      const col=m.tipo==='ingreso'?'#10b981':m.tipo==='gasto_prof'?'#3b82f6':'#ef4444';
+      const tag=m.tipo==='ingreso'?'Ingreso prof.':m.tipo==='gasto_prof'?'Gasto prof.':'Gasto personal';
+      return '<div class="movi"><div class="movi-l"><div class="movi-dot" style="background:'+col+';"></div><div><div class="movi-lbl">'+m.desc+'</div><div class="movi-date">'+m.fecha+' · '+tag+'</div></div></div><span class="movi-val" style="color:'+col+';">'+(m.tipo==='ingreso'?'+':'-')+fp(m.monto)+'</span></div>';
+    }).join('');
+
+  const tickEl=document.getElementById('ex-tickets');
+  if(S.tickets.length===0){
+    tickEl.innerHTML='<span style="font-size:10.5px;color:#9ca3af;font-style:italic;">Sin tickets adjuntados aún</span>';
+  } else {
+    tickEl.innerHTML='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">'+
+      S.tickets.map(tk=>'<img src="'+tk.src+'" style="width:55px;height:55px;border-radius:5px;object-fit:cover;border:1px solid #e5e7eb;cursor:pointer;" onclick="viewTicket(\''+tk.src+'\')" title="'+tk.name+'">').join('')+'</div>';
+  }
+  document.getElementById('modal').classList.add('on');
+}
+
+// ONBOARDING
+function handleOnboarding(txt){
+  const t=txt.toLowerCase().trim();
+  if(S.step===1){
+    const nom=txt.replace(/me llamo\s*/i,'').replace(/soy\s*/i,'').replace(/mi nombre es\s*/i,'').trim();
+    S.user.nombre=nom.charAt(0).toUpperCase()+nom.slice(1);updateProfile();
+    typing(()=>{
+      addBub('Buenísimo '+S.user.nombre+' 👋 Para conectarme con ARCA y traer tus datos fiscales automáticamente, necesito tu CUIT 🔐\n\n¿Cuál es tu CUIT? (sin guiones, ej: 20123456789)','b');
+      S.step='1.2';
+    });
+  } else if(S.step==='1.2'){
+    S.user.cuit=txt.replace(/[-\s]/g,'');updateProfile();
+    typing(()=>{
+      addBub('Perfecto 📋 Ahora voy a verificar tu CUIT en ARCA para traer tu situación fiscal actualizada 🔒','b');
+      addChips([{l:'🔗 Ingresar a ARCA',m:'Ingresar a ARCA'},{l:'⏭️ Hacerlo más tarde',m:'Prefiero hacerlo más tarde'}]);
+      S.step='1.5';
+    });
+  } else if(S.step==='1.5'){
+    if(t.includes('ingresar')||t.includes('conectar')){
+      typing(()=>{
+        addBub('🔐 Verificando CUIT '+S.user.cuit+' en ARCA...','b');
+        setTimeout(()=>{
+          typing(()=>{
+            addBub('✅ Conexión exitosa con ARCA\n\nDetecté tu situación fiscal automáticamente:','b');
+            addBub('👤 CUIT: '+S.user.cuit+'\n📋 Categoría actual: C\n💰 Límite anual: $8.000.000 ARS\n📅 Próximo vencimiento: 20 jul 2026','b');
+            S.user.arcaConectado=true;
+            typing(()=>{
+              addBub('Con esto ya puedo monitorear tu facturación en tiempo real y avisarte antes de que te pases de categoría 🎯\n\n¿Sos monotributista o estás en proceso de inscribirte?','b');
+              addBub('1. Soy monotributista\n2. Estoy en proceso de inscribirme\n3. Todavía no, pero trabajo de forma independiente','b');
+              S.step=2;
+            },900);
+          });
+        },1600);
+      });
+    } else {
+      S.user.arcaConectado=false;
+      typing(()=>{
+        addBub('Sin problema, podés conectarlo después desde tu perfil 📝\n\n¿Sos monotributista o estás en proceso de inscribirte?','b');
+        addBub('1. Soy monotributista\n2. Estoy en proceso de inscribirme\n3. Todavía no, pero trabajo de forma independiente','b');
+        S.step=2;
+      });
+    }
+  } else if(S.step===2){
+    const ops=['Soy monotributista','Estoy en proceso de inscribirme','Todavía no, trabajo de forma independiente'];
+    S.user.tipo=ops[parseInt(t)-1]||txt;updateProfile();
+    typing(()=>{
+      addBub('¿Trabajás de forma independiente o también tenés relación de dependencia?','b');
+      addBub('1. Solo independiente\n2. Independiente y en relación de dependencia\n3. Solo en relación de dependencia','b');
+      S.step=3;
+    });
+  } else if(S.step===3){
+    const ops=['Solo independiente','Independiente y en relación de dependencia','Solo en relación de dependencia'];
+    S.user.modalidad=ops[parseInt(t)-1]||txt;updateProfile();
+    typing(()=>{
+      addBub('¿Por qué medios cobrás habitualmente? Podés elegir más de uno 💸','b');
+      addBub('1. Transferencia bancaria\n2. Mercado Pago\n3. Efectivo\n4. Dólares / Wise / Payoneer','b');
+      S.step=4;
+    });
+  } else if(S.step===4){
+    const opts=['Transferencia bancaria','Mercado Pago','Efectivo','Dólares / Wise / Payoneer'];
+    const nums=t.match(/\d/g)||[];
+    const eleg=nums.map(n=>opts[parseInt(n)-1]).filter(Boolean);
+    S.user.medios=eleg.length?eleg.join(', '):txt;updateProfile();
+    typing(()=>{
+      addBub('¡Listo '+S.user.nombre+', ya te tengo! 🎉 A partir de ahora cada vez que tengas un gasto o ingreso mandame un mensaje y yo me encargo del resto.\n\nPodés escribir, mandar fotos de tickets o grabar un audio como:\n🎙️ "Gasté 10.000 en el super"\n\n¿Arrancamos? 💪','b');
+      S.phase='main';showPanel();
+      addChips([
+        {l:'💰 Registrar ingreso',m:'Cobré $150.000 por un proyecto de diseño'},
+        {l:'🛍️ Anotar gasto',m:'Gasté $3.800 en un café'},
+        {l:'🎙️ Simular audio',m:'_audio'},
+        {l:'🧾 Subir ticket',m:'_ticket'},
+        {l:'📊 Ver resumen',m:'Mostrame el resumen de hoy'},
+        {l:'🔔 Vencimientos',m:'¿Cuándo vence el monotributo?'},
+      ]);
+    },1100);
+  }
+}
+
+// MAIN
+function handleMain(txt){
+  const t=txt.toLowerCase();
+  if(t==='_export'){showModal();return;}
+  if(t==='_ticket'){fileInput.click();return;}
+  if(t==='_audio'){simulateAudio();return;}
+
+  if(S.waitMail){
+    S.waitMail=false;
+    const mail=txt.match(/[\w.-]+@[\w.-]+\.\w+/)?.[0]||txt;
+    typing(()=>{
+      addBub('Compartilo:\n'+mail,'b');
+      setTimeout(()=>typing(()=>addBub('¡Listo! Resumen enviado 📬','b'),600),900);
+    });return;
+  }
+
+  const esIng=(t.includes('cobré')||t.includes('me pagaron')||t.includes('ingresé'))&&!t.includes('café');
+  const esGProf=t.includes('adobe')||t.includes('figma')||t.includes('slack')||t.includes('notion')||t.includes('hosting')||t.includes('dominio')||t.includes('suscripción')||(t.includes('pagué')&&(t.includes('tool')||t.includes('software')));
+  const esGPer=!esIng&&!esGProf&&(t.includes('gasté')||t.includes('super')||t.includes('café')||t.includes('almuerzo')||t.includes('nafta')||t.includes('farmacia')||t.includes('bar')||t.includes('restaurant')||(t.includes('pagué')&&!esGProf));
+  const esFact=t.includes('facturado')||t.includes('límite')||(t.includes('cuánto')&&t.includes('llevo'));
+  const esVenc=t.includes('vencimiento')||t.includes('vence')||(t.includes('cuándo')&&t.includes('pago'));
+  const esResHoy=t.includes('resumen')&&(t.includes('hoy')||t.includes('día'));
+  const esMensual=t.includes('resumen')&&(t.includes('mes')||t.includes('mensual')||t.includes('completo'));
+  const esExport=t.includes('export')||t.includes('pdf')||t.includes('arca')||t.includes('contador');
+  const esRecateg=t.includes('recategorizo')||t.includes('recategorizar');
+  const esAhorro=t.includes('ahorro')||t.includes('multa')||t.includes('ahorré')||t.includes('ahorre');
+
+  if(esIng){
+    const m=pm(txt);
+    if(m>0){
+      S.ingresos+=m;S.facturado+=m;addMov('ingreso',txt,m);
+      typing(()=>{
+        addBub('Perfecto, lo registré 📌\n\n💼 Ingreso profesional — '+fp(m)+'\nFacturación acumulada este mes: '+fp(S.facturado)+' 📋','b');
+        updateStats();checkAlerts();
+        addChips([{l:'📊 Ver resumen',m:'Mostrame el resumen de hoy'},{l:'💚 Ver ahorro en multas',m:'¿Cuánto me ahorré?'},{l:'📄 Exportar',m:'_export'}]);
+      });
+    } else addBub('¿Cuánto cobraste? Ejemplo: "Cobré $80.000 por un proyecto"','b');
+
+  } else if(esGProf){
+    const m=pm(txt);
+    if(m>0){
+      S.gastosProf+=m;addMov('gasto_prof',txt,m);
+      typing(()=>{
+        addBub('Anotado ✅\n\n💼 Gasto profesional — '+fp(m)+'\nGastos prof. del mes: '+fp(S.gastosProf),'b');
+        updateStats();
+        addChips([{l:'📊 Ver resumen',m:'Mostrame el resumen de hoy'},{l:'📄 Exportar',m:'_export'}]);
+      });
+    }
+
+  } else if(esGPer){
+    const m=pm(txt);
+    if(m>0){
+      S.gastosPer+=m;addMov('gasto_per',txt,m);
+      typing(()=>{
+        addBub('Anotado ✅ 🧾\n\nGasto personal — '+fp(m)+'\nBalance de hoy: '+fp(S.ingresos-S.gastosPer-S.gastosProf),'b');
+        updateStats();
+        addChips([{l:'📊 Resumen del día',m:'Mostrame el resumen de hoy'},{l:'💚 Ver ahorro',m:'¿Cuánto me ahorré?'},{l:'📄 Exportar',m:'_export'}]);
+      });
+    } else addBub('¿Cuánto gastaste? Ejemplo: "Gasté $5.000 en el super"','b');
+
+  } else if(esAhorro){
+    calcAhorro();
+    typing(()=>{addSavingsBub(S.ahorro);addChips([{l:'📄 Ver resumen completo',m:'_export'}]);});
+
+  } else if(esFact){
+    const pct=Math.round((S.facturado/LIMITE)*100);
+    typing(()=>{
+      addBub('📋 Facturación acumulada: '+fp(S.facturado)+'\nLímite anual: '+fp(LIMITE)+'\n\n'+pct+'% del tope — te quedan '+fp(LIMITE-S.facturado)+'\n\n'+(pct>=80?'⚠️ Considerá recategorizarte.':'✅ Estás dentro del límite.'),'b');
+      addChips([{l:'📄 Ver resumen completo',m:'_export'},{l:'💡 ¿Cómo me recategorizo?',m:'¿Cómo me recategorizo?'}]);
+    });
+
+  } else if(esVenc){
+    typing(()=>{
+      addBub('📅 Vencimientos de tu monotributo:\n\n🔴 20 jun — Cuota mensual (HOY, URGENTE)\n🟡 20 jul — Cuota julio\n🟡 jul–ago — Recategorización semestral\n⬜ ene 2027 — Recategorización anual\n\nTe aviso antes de cada uno 🔔','b');
+      addChips([{l:'📄 Ver resumen',m:'_export'}]);
+    });
+
+  } else if(esResHoy){
+    typing(()=>{
+      addBub('Acá está tu resumen de hoy 📋\n\n💼 Ingresos profesionales: '+fp(S.ingresos)+'\n🧾 Gastos personales: '+fp(S.gastosPer)+'\n💼 Gastos profesionales: '+fp(S.gastosProf)+'\n📋 Facturación acumulada: '+fp(S.facturado)+'\n💰 Balance neto: '+fp(S.ingresos-S.gastosPer-S.gastosProf)+'\n💚 Ahorro en multas: '+fp(S.ahorro),'b');
+      addChips([{l:'📄 Ver resumen completo',m:'_export'},{l:'🔔 Ver vencimientos',m:'¿Cuándo vence el monotributo?'}]);
+    });
+
+  } else if(esMensual||esExport){
+    typing(()=>{
+      addBub('¡Hola '+(S.user.nombre||'')+' 👋\nAcá está tu resumen de Junio 2026 📊\n\nIngresos, gastos, facturas y estado del monotributo. Listo para ARCA o tu contador.','b');
+      setTimeout(()=>{
+        const row=document.createElement('div');row.className='br b';
+        const b=document.createElement('div');b.className='bub b';b.style.cursor='pointer';
+        b.innerHTML='<div style="background:#0a2a0a;border:1px solid #25d366;border-radius:6px;padding:8px;margin-bottom:5px;"><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:18px;">📄</span><div><div style="font-size:11px;font-weight:600;color:#e9edef;">ResumenFinanciero_Junio2026</div><div style="font-size:9.5px;color:#8696a0;">Tocá para ver · Para ARCA / contador</div></div></div></div>Balance: <span style="color:#25d366;font-weight:700;">'+fp(S.ingresos-S.gastosPer-S.gastosProf)+'</span>\n💚 Te ahorraste en multas: <span style="color:#4ade80;font-weight:700;">'+fp(S.ahorro)+'</span>';
+        b.onclick=showModal;
+        const t2=document.createElement('div');t2.className='bt';t2.textContent=gt();
+        row.appendChild(b);row.appendChild(t2);chatEl.appendChild(row);chatEl.scrollTop=chatEl.scrollHeight;
+        addChips([{l:'📥 Abrir resumen',m:'_export'},{l:'📧 Enviar por mail',m:'Enviarlo a mi mail'}]);
+      },500);
+    });
+
+  } else if(esRecateg){
+    typing(()=>{
+      addBub('Para recategorizarte:\n\n1️⃣ Entrá a afip.gob.ar o la app Mi AFIP\n2️⃣ Monotributo → Recategorización\n3️⃣ Ingresá tu facturación de los últimos 12 meses\n4️⃣ El sistema te muestra la categoría correspondiente\n\n💡 Si facturaste menos, bajás de categoría y pagás menos cuota mensual.','b');
+      addChips([{l:'📄 Ver resumen',m:'_export'}]);
+    });
+
+  } else if(t.includes('mail')||t.includes('enviarlo')){
+    typing(()=>{addBub('¿A qué mail te lo mando?','b');S.waitMail=true;});
+
+  } else {
+    typing(()=>{
+      addBub('Podés:\n💬 Escribir "Gasté $5.000 en el super"\n🎙️ Grabar un audio\n🧾 Subir foto de un ticket\n📄 Pedir el resumen exportable','b');
+      addChips([
+        {l:'💰 Ingreso',m:'Cobré $150.000 por un proyecto'},
+        {l:'🛍️ Gasto',m:'Gasté $5.000 en almuerzo'},
+        {l:'🎙️ Simular audio',m:'_audio'},
+        {l:'🧾 Subir ticket',m:'_ticket'},
+        {l:'💚 Ver ahorro',m:'¿Cuánto me ahorré?'},
+        {l:'📄 Exportar',m:'_export'},
+      ]);
+    });
+  }
+}
+
+// AUDIO SIMULATION
+let recTimer=null;
+let recSec=0;
+function simulateAudio(){
+  if(S.isRecording)return;
+  S.isRecording=true;
+  const btn=document.getElementById('btn-mic');
+  btn.classList.add('recording');
+  btn.textContent='⏹️';
+  recSec=0;statusEl.textContent='grabando... 0s';
+  recTimer=setInterval(()=>{recSec++;statusEl.textContent='grabando... '+recSec+'s';},1000);
+  const audios=['Gasté 10.000 en el super','Cobré 80.000 por un proyecto','Pagué Adobe 15.000','Gasté 3.800 en un café'];
+  const chosen=audios[Math.floor(Math.random()*audios.length)];
+  setTimeout(()=>{
+    clearInterval(recTimer);S.isRecording=false;
+    btn.classList.remove('recording');btn.textContent='🎙️';
+    statusEl.textContent='en línea';
+    addAudioBub(recSec||3);
+    typing(()=>{
+      addBub('🎙️ Escuché: "'+chosen+'"\n\nQuiero confirmar — ¿es correcto?','b');
+      addChips([{l:'✅ Sí, registralo',m:chosen},{l:'✏️ No, lo corrijo',m:'Quiero corregirlo'}]);
+    },800);
+  },3000);
+}
+
+// FILE / TICKET UPLOAD
+fileInput.addEventListener('change',e=>{
+  const files=Array.from(e.target.files);
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      const src=ev.target.result;
+      addTicketBub(file.name,src);
+      addTicketToPanel(src,file.name);
+      typing(()=>{
+        const m=pm(file.name)||0;
+        if(m>0){S.gastosPer+=m;addMov('gasto_per','Ticket: '+file.name,m);updateStats();}
+        addBub('🧾 Ticket guardado ✅\n'+(m>0?'Detecté un monto de '+fp(m)+' y lo registré como gasto personal.\n\n':'')+'Lo podés ver en el panel y en tu resumen exportable.','b');
+        addChips([{l:'📊 Ver resumen',m:'Mostrame el resumen de hoy'},{l:'📄 Exportar',m:'_export'}]);
+      },800);
+    };
+    reader.readAsDataURL(file);
+  });
+  fileInput.value='';
+});
+
+function tap(msg){inpEl.value=msg;send();}
+
+function send(){
+  const val=inpEl.value.trim();if(!val)return;
+  if(val==='_export'){showModal();inpEl.value='';return;}
+  if(val==='_ticket'){fileInput.click();inpEl.value='';return;}
+  if(val==='_audio'){simulateAudio();inpEl.value='';return;}
+  addBub(val,'u');inpEl.value='';
+  if(S.phase==='onboarding')handleOnboarding(val);
+  else handleMain(val);
+}
+
+document.getElementById('btn-send').addEventListener('click',send);
+inpEl.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();send();}});
+document.getElementById('btn-attach').addEventListener('click',()=>fileInput.click());
+document.getElementById('btn-mic').addEventListener('click',()=>{
+  if(S.phase!=='main'){addBub('Primero completá el onboarding 😊','b');return;}
+  if(!S.isRecording)simulateAudio();
+});
+
+// START
+typing(()=>{
+  addBub('¡Hola! 👋 Soy Foco, tu copiloto contable.\nEstoy acá para ayudarte a ordenar tus finanzas y que nunca más te agarre desprevenido una recategorización del monotributo. 📋\n\nAntes de arrancar, necesito conocerte un poco. Son solo unas preguntas rápidas 🚀','b');
+  typing(()=>{addBub('¿Cuál es tu nombre? 😊','b');S.step=1;},700);
+
+},900);
+</script>
+</body>
+</html>
